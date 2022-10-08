@@ -169,6 +169,10 @@ void CreateNode(int32 x, int32 y) {
 	focused = node;
 }
 
+#if defined(__gnu_linux__)
+extern char _binary_data_icons_bmp_start[];
+extern char _binary_data_nodes_png_start[];
+#endif
 
 int main() {
 	// Initialize stuff
@@ -186,13 +190,18 @@ int main() {
 	OSCreateWindow("a graph thingy", 1242, 768);
 #if _WIN32
 	Win32SetWindowIcon(2);
+#elif defined(__gnu_linux__)
+	LinuxSetWindowIcon(PNGLoadImage(&scratch, (byte*)_binary_data_nodes_png_start));
 #endif
 	GfxInit(&scratch);
 	UISetWindowElement(RGBA_DARKGREY);
 	RandomInit(1234);
-
 	font = LoadDefaultFont(&scratch, 24);
+#if defined(_WIN32)
 	TextureId iconAtlas = GfxLoadTexture(&scratch, LoadAsset(1).data, GFX_SMOOTH);
+#elif defined(__gnu_linux__)
+	TextureId iconAtlas = GfxLoadTexture(&scratch, (byte*)_binary_data_icons_bmp_start, GFX_SMOOTH);
+#endif
 
 	scrollPane = UICreateElement(NULL);
 	scrollPane->flags = UI_INFINITESCROLL;
