@@ -198,7 +198,7 @@ int main() {
 	RandomInit(1234);
 	font = LoadDefaultFont(&scratch, 24);
 #if defined(_WIN32)
-	TextureId iconAtlas = GfxLoadTexture(&scratch, LoadAsset(1).data, GFX_SMOOTH);
+	TextureId iconAtlas = GfxLoadTexture(&scratch, LoadAsset(1).data, IMAGE_BITMAP, GFX_SMOOTH);
 #elif defined(__gnu_linux__)
 	TextureId iconAtlas = GfxLoadTexture(&scratch, (byte*)_binary_data_icons_bmp_start, GFX_SMOOTH);
 #endif
