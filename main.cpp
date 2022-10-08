@@ -170,8 +170,8 @@ void CreateNode(int32 x, int32 y) {
 }
 
 #if defined(__gnu_linux__)
-extern char _binary_data_icons_bmp_start[];
-extern char _binary_data_nodes_png_start[];
+extern byte* _binary_data_icons_bmp_start;
+extern byte* _binary_data_nodes_png_start;
 #endif
 
 int main() {
@@ -191,7 +191,7 @@ int main() {
 #if _WIN32
 	Win32SetWindowIcon(2);
 #elif defined(__gnu_linux__)
-	LinuxSetWindowIcon(PNGLoadImage(&scratch, (byte*)_binary_data_nodes_png_start));
+	LinuxSetWindowIcon(PNGLoadImage(&scratch, _binary_data_nodes_png_start));
 #endif
 	GfxInit(&scratch);
 	UISetWindowElement(RGBA_DARKGREY);
@@ -200,7 +200,7 @@ int main() {
 #if defined(_WIN32)
 	TextureId iconAtlas = GfxLoadTexture(&scratch, LoadAsset(1).data, IMAGE_BITMAP, GFX_SMOOTH);
 #elif defined(__gnu_linux__)
-	TextureId iconAtlas = GfxLoadTexture(&scratch, (byte*)_binary_data_icons_bmp_start, GFX_SMOOTH);
+	TextureId iconAtlas = GfxLoadTexture(&scratch, _binary_data_icons_bmp_start, GFX_SMOOTH);
 #endif
 
 	scrollPane = UICreateElement(NULL);
